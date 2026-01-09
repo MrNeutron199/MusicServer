@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "yt-search": "^2.13.1"
+  }
+}
