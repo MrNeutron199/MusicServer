@@ -11,7 +11,7 @@ function downloadVideoAsBlob(videoUrl, mimeType) {
     const attempt = () => {
       const outputBase = `temp_audio_${Date.now()}`;
       const finalAudioFile = `${outputBase}.m4a`;
-      const params = `-f bestaudio[ext=m4a]/91/92 --embed-thumbnail -x --audio-format m4a --audio-quality 0 --no-keep-video --js-runtimes node -o ${outputBase} ${videoUrl}`;
+      const params = `-f bestaudio[ext=m4a]/91/92 -v --embed-thumbnail -x --audio-format m4a --audio-quality 0 --no-keep-video --js-runtimes node -o ${outputBase} ${videoUrl}`;
       const ytdlpProcess = spawn("yt-dlp", params.split(" "));
       ytdlpProcess.on("close", (code) => {
         if (code === 0) {
@@ -29,9 +29,8 @@ function downloadVideoAsBlob(videoUrl, mimeType) {
       const handleFailure = (err) => {
         if (attempts < maxRetries) {
           attempts++;
-          console.log(`Attempt ${retryCount} failed. Retrying...`);
-          // attempt();
-          setTimeout(() => attempt(), 30 * 1000);
+          console.log(`Attempt ${attempts} failed. Retrying...`);
+          attempt();
         } else {
           reject(new Error("Max retries reached: " + err.message));
         }
